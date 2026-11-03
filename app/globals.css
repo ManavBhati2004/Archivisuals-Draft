@@ -1,26 +1,359 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
+/* ─────────────────────────────────────────────────────────────
+   Tokens — strictly black and white. Hierarchy comes from opacity.
+   ───────────────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --black: #000000;
+  --white: #ffffff;
+
+  --bg: var(--black);
+  --fg: var(--white);
+  --fg-rgb: 255 255 255;
+  --bg-rgb: 0 0 0;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --theme-dur: 0.6s;
+
+  --gutter: clamp(20px, 5vw, 96px);
+  --section-y: clamp(120px, 18vh, 240px);
+  --header-h: 76px;
+  --max-w: 1680px;
+}
+
+/* Theme is set on <body data-theme>; dark is the default. Scoped islands use .theme-*. */
+body[data-theme="light"],
+.theme-light {
+  --bg: var(--white);
+  --fg: var(--black);
+  --fg-rgb: 0 0 0;
+  --bg-rgb: 255 255 255;
+}
+.theme-dark {
+  --bg: var(--black);
+  --fg: var(--white);
+  --fg-rgb: 255 255 255;
+  --bg-rgb: 0 0 0;
+}
+/* Opacity steps must be re-resolved wherever the theme can change. */
+:root,
+body,
+.theme-light,
+.theme-dark {
+  --fg-60: rgb(var(--fg-rgb) / 0.6);
+  --fg-40: rgb(var(--fg-rgb) / 0.4);
+  --fg-20: rgb(var(--fg-rgb) / 0.2);
+  --fg-14: rgb(var(--fg-rgb) / 0.14);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-fg-60: var(--fg-60);
+  --color-fg-40: var(--fg-40);
+  --color-fg-20: var(--fg-20);
+  --color-fg-14: var(--fg-14);
+  --color-black: #000;
+  --color-white: #fff;
+  --font-sans: var(--font-archivo), system-ui, sans-serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --radius-none: 0;
+  --breakpoint-3xl: 1920px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─────────────────────────────────────────────────────────────
+   Base
+   ───────────────────────────────────────────────────────────── */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  scrollbar-color: var(--fg-40) var(--bg);
+  scrollbar-width: thin;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-variation-settings: "wdth" var(--wdth, 100), "wght" var(--wght, 400);
+  font-size: 17px;
+  line-height: 1.6;
+  transition:
+    background-color var(--theme-dur) var(--ease-out),
+    color var(--theme-dur) var(--ease-out);
+}
+
+/* Anything that sets --wdth/--wght gets live axes (they animate via GSAP/CSS). */
+* {
+  font-variation-settings: "wdth" var(--wdth, 100), "wght" var(--wght, 400);
+}
+
+::selection {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 1px solid var(--fg);
+  outline-offset: 4px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--fg-40);
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Custom cursor replaces the system pointer on fine pointers (except text fields). */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
+html.has-cursor :is(input, textarea, select, [contenteditable]) {
+  cursor: text !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Type roles — Archivo only, axes driven by custom properties
+   ───────────────────────────────────────────────────────────── */
+.t-display {
+  --wdth: 125;
+  --wght: 750;
+  font-size: clamp(3rem, 9vw, 10rem);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.t-display-sm {
+  --wdth: 125;
+  --wght: 750;
+  font-size: clamp(2.25rem, 6vw, 6.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.t-h3 {
+  --wdth: 125;
+  --wght: 600;
+  font-size: clamp(1.5rem, 2.4vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.t-label {
+  --wdth: 125;
+  --wght: 500;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.t-body {
+  --wdth: 100;
+  --wght: 400;
+  font-size: clamp(17px, 1.15vw, 19px);
+  line-height: 1.6;
+  max-width: 60ch;
+  color: var(--fg-60);
+}
+.t-num {
+  --wdth: 68;
+  --wght: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+/* Hover width stretch for nav links and list rows. */
+.stretch {
+  transition: --wdth 0.5s var(--ease-out);
+}
+@property --wdth {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 100;
+}
+@property --wght {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 400;
+}
+.stretch:hover,
+.stretch:focus-visible,
+.group:hover .group-stretch {
+  --wdth: 125;
+}
+.group-stretch {
+  transition: --wdth 0.5s var(--ease-out);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Layout
+   ───────────────────────────────────────────────────────────── */
+.wrap {
+  width: 100%;
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(12px, 1.6vw, 28px);
+}
+.section {
+  padding-block: var(--section-y);
+}
+.hairline {
+  border-color: var(--fg-14);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Media — footage is the only colour
+   ───────────────────────────────────────────────────────────── */
+.mono-at-rest .media-mono {
+  filter: grayscale(1);
+  transition: filter 0.6s var(--ease-out);
+}
+.mono-at-rest .media-mono:hover,
+.mono-at-rest :is(a, [data-media-group]):hover .media-mono,
+.mono-at-rest .is-active .media-mono,
+.mono-at-rest .media-mono.is-active {
+  filter: grayscale(0);
+}
+
+.scrim-b {
+  background: linear-gradient(to top, rgb(0 0 0 / 0.55), rgb(0 0 0 / 0));
+}
+
+/* Line masks for SplitText reveals. Hidden until split so lines never flash. */
+.js .split-pending {
+  visibility: hidden;
+}
+/* Hero entrance start state (JS plays it once the preloader opens). */
+.js .hero-line {
+  transform: translateY(110%);
+}
+.js .hero-fade {
+  opacity: 0;
+}
+
+/* Sticky bars that sit under the header and close the gap when it hides. */
+.under-header {
+  position: sticky;
+  top: var(--header-h);
+  transition: top 0.6s var(--ease-out);
+}
+html[data-header="hidden"] .under-header {
+  top: 0;
+}
+
+/* Quote success check draws itself. */
+@keyframes sc-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.success-check .sc-box,
+.success-check .sc-tick {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: sc-draw 0.9s var(--ease-out) forwards;
+}
+.success-check .sc-tick {
+  animation-delay: 0.45s;
+}
+
+/* Time-of-day hero: only the current cut is displayed (and so only its poster loads). */
+html[data-daypart="day"] .hero-cut-twilight,
+html:not([data-daypart="day"]) .hero-cut-day {
+  display: none;
+}
+
+/* During the intro the header lockup waits for its flying twin to land. */
+html.intro .header-lockup {
+  opacity: 0;
+}
+
+/* Preloader only exists for first visits with JS. */
+html.preloaded .preloader,
+html:not(.js) .preloader {
+  display: none;
+}
+
+/* Triangle reveals start closed (only when JS will open them). */
+.js .tri-pending {
+  clip-path: polygon(50% 42%, 56% 56%, 44% 56%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .tri-pending {
+    clip-path: none;
+  }
+}
+.split-mask {
+  overflow: hidden;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+
+/* Equaliser bars on the sound toggle. */
+@keyframes eq {
+  0%, 100% { transform: scaleY(0.25); }
+  50% { transform: scaleY(1); }
+}
+.eq-bar {
+  transform-origin: bottom;
+  transform: scaleY(0.25);
+}
+.eq-on .eq-bar {
+  animation: eq 0.9s var(--ease-in-out) infinite;
+}
+.eq-on .eq-bar:nth-child(2) { animation-delay: -0.3s; }
+.eq-on .eq-bar:nth-child(3) { animation-delay: -0.6s; }
+.eq-on .eq-bar:nth-child(4) { animation-delay: -0.15s; }
+
+/* Thin "scroll" line under the hero. */
+@keyframes scroll-line {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  50.01% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+.scroll-line {
+  animation: scroll-line 2.2s var(--ease-in-out) infinite;
+}
+
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
 }
