@@ -3,7 +3,6 @@ import { Arrival } from "@/components/home/Arrival";
 import { Threshold } from "@/components/home/Threshold";
 import { SelectedFilms } from "@/components/home/SelectedFilms";
 import { WhatWeShoot } from "@/components/home/WhatWeShoot";
-import { InTheGrade } from "@/components/home/InTheGrade";
 import { RecentListings } from "@/components/home/RecentListings";
 import { Process } from "@/components/home/Process";
 import { Studio } from "@/components/home/Studio";
@@ -18,7 +17,6 @@ export default function Home() {
       <Threshold />
       <SelectedFilms />
       <WhatWeShoot />
-      <InTheGrade />
       <RecentListings />
       <Process />
       <Studio />

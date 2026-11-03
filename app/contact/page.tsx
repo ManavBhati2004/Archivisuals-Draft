@@ -34,7 +34,7 @@ export default function ContactPage() {
 
         <aside className="col-span-12 md:col-span-4 md:col-start-9" aria-label="Direct contact">
           <h2 className="t-label mb-10 border-b border-fg-14 pb-6 text-fg-60">Or reach us directly</h2>
-          <Button href={whatsappUrl} external magnetic>
+          <Button href={whatsappUrl} external>
             WhatsApp us
           </Button>
           <dl className="mt-12 space-y-6">

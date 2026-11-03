@@ -5,14 +5,14 @@ import { TransitionLink } from "@/components/shell/TransitionLink";
 import { Slate } from "@/components/type/Slate";
 import { SplitLines } from "@/components/type/SplitLines";
 
-/** 08 — THE STUDIO. A few lines about the studio beside a small behind-the-scenes loop. */
+/** 07 — THE STUDIO. A few lines about the studio beside a small behind-the-scenes loop. */
 export function Studio() {
   const { studio } = home;
   return (
     <section id="studio" data-chapter="Studio" className="section">
       <div className="wrap grid-12 items-end gap-y-14">
         <div className="col-span-12 md:col-span-7">
-          <Slate index="08">The studio</Slate>
+          <Slate index="07">The studio</Slate>
           <SplitLines as="p" className="t-h3 mt-10 max-w-[28ch]" >
             {studio.lines}
           </SplitLines>

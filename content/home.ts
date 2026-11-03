@@ -17,10 +17,6 @@ export const home = {
       "Archi, for the buildings. Visuals, for how it feels to walk through them. We film homes the way they’re lived in, not the way they’re listed.", // [PLACEHOLDER]
     caption: "A roofline and a play button. That’s the whole job.",
   },
-  grade: {
-    caption: "Every frame graded in-house.", // [PLACEHOLDER]
-    film: clips.exteriorDay,
-  },
   process: [
     { title: "Request", body: "Send the address and what you need, by WhatsApp or the quote form." },
     {

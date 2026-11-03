@@ -7,7 +7,6 @@ import { nav } from "@/content/site";
 import { ui, useUI } from "@/lib/ui-store";
 import { Logo, Wordmark } from "@/components/brand/Logo";
 import { TransitionLink } from "./TransitionLink";
-import { Magnetic } from "@/components/type/Magnetic";
 
 /** Hides on scroll down, returns on scroll up; gains a backdrop once past the first screen. */
 export function Header() {
@@ -85,15 +84,13 @@ export function Header() {
             </span>
           </button>
           <span className="hidden md:inline-block">
-            <Magnetic>
-              <button
-                type="button"
-                onClick={ui.openQuote}
-                className="t-label min-h-[44px] border border-fg bg-fg px-5 py-3 text-bg transition-colors duration-300 hover:bg-transparent hover:text-fg"
-              >
-                Request a quote
-              </button>
-            </Magnetic>
+            <button
+              type="button"
+              onClick={ui.openQuote}
+              className="t-label min-h-[44px] border border-fg bg-fg px-5 py-3 text-bg transition-colors duration-300 hover:bg-transparent hover:text-fg"
+            >
+              Request a quote
+            </button>
           </span>
         </div>
       </div>

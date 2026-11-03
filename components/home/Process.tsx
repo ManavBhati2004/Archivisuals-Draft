@@ -8,7 +8,7 @@ import { RollingDigits } from "@/components/type/RollingDigits";
 import { Slate } from "@/components/type/Slate";
 
 /**
- * 07 — THE PROCESS (white). A sticky giant step number on the left rolls 01 → 04 as the
+ * 06 — THE PROCESS (white). A sticky giant step number on the left rolls 01 → 04 as the
  * steps scroll on the right, while a vertical hairline draws down like the logo's stroke.
  */
 export function Process() {
@@ -34,7 +34,7 @@ export function Process() {
       <div className="wrap grid-12 gap-y-12">
         <div className="col-span-12 md:col-span-5">
           <div className="md:sticky md:top-[18vh]">
-            <Slate index="07">The process</Slate>
+            <Slate index="06">The process</Slate>
             <p className="mt-8 leading-[0.8] max-md:hidden" style={{ fontSize: "clamp(8rem, 22vw, 22rem)" }}>
               <RollingDigits value={step + 1} />
             </p>

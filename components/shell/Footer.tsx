@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { duration, ease } from "@/lib/motion";
 import { prefersReducedMotion } from "@/lib/a11y";
@@ -14,6 +14,27 @@ const WORD = "ARCHIVISUALS";
 
 export function Footer() {
   const ref = useRef<HTMLElement>(null);
+  const fitBox = useRef<HTMLDivElement>(null);
+  const word = useRef<HTMLParagraphElement>(null);
+
+  // Scale the wordmark so it spans exactly the .wrap content width at every screen size.
+  useEffect(() => {
+    const box = fitBox.current;
+    const el = word.current;
+    if (!box || !el) return;
+    const fit = () => {
+      const cs = getComputedStyle(box);
+      const target = box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      const size = parseFloat(getComputedStyle(el).fontSize);
+      const natural = el.scrollWidth;
+      if (target > 0 && natural > 0) el.style.fontSize = `${(size * target) / natural}px`;
+    };
+    fit();
+    document.fonts?.ready.then(fit);
+    const ro = new ResizeObserver(fit);
+    ro.observe(box);
+    return () => ro.disconnect();
+  }, []);
 
   useGSAP(
     () => {
@@ -80,19 +101,24 @@ export function Footer() {
         </div>
       </div>
 
-      <p
-        aria-label="Archivisuals"
-        className="fw-word mt-[clamp(64px,10vh,140px)] flex justify-between overflow-hidden px-[clamp(8px,1.2vw,20px)] leading-[0.8]"
-        style={{ fontSize: "clamp(2.5rem, 12.6vw, 15.5rem)", ["--wdth" as string]: 125, ["--wght" as string]: 800, letterSpacing: "-0.02em" }}
-      >
-        {WORD.split("").map((ch, i) => (
-          <span key={i} aria-hidden className="fw-letter inline-block pb-[0.04em]">
-            {ch}
-          </span>
-        ))}
-      </p>
+      {/* Giant wordmark, fitted to the content width so its edges line up with the grid above. */}
+      <div ref={fitBox} className="wrap mt-[clamp(64px,10vh,140px)] mb-[clamp(12px,2vw,28px)]">
+        <p
+          ref={word}
+          aria-label="Archivisuals"
+          className="fw-word flex w-max overflow-hidden whitespace-nowrap leading-[0.8]"
+          style={{ fontSize: "12vw", ["--wdth" as string]: 125, ["--wght" as string]: 800, letterSpacing: "-0.02em" }}
+        >
+          {WORD.split("").map((ch, i) => (
+            <span key={i} aria-hidden className="fw-letter inline-block pb-[0.04em]">
+              {ch}
+            </span>
+          ))}
+        </p>
+      </div>
 
-      <div className="wrap flex flex-wrap items-center justify-between gap-4 border-t border-fg-14 py-6">
+      {/* Extra bottom room so the fixed sound toggle (desktop) and quote pill (mobile) never cover this row. */}
+      <div className="wrap flex flex-wrap items-center justify-between gap-4 border-t border-fg-14 pb-24 pt-6 md:pb-20">
         <p className="t-label text-fg-40">
           © <span className="t-num">{year}</span> {site.name}
         </p>

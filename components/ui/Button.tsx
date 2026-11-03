@@ -2,11 +2,10 @@
 
 import type { ReactNode } from "react";
 import { TransitionLink } from "@/components/shell/TransitionLink";
-import { Magnetic } from "@/components/type/Magnetic";
 
 type Variant = "primary" | "ghost";
 
-type Common = { children: ReactNode; variant?: Variant; magnetic?: boolean; className?: string };
+type Common = { children: ReactNode; variant?: Variant; className?: string };
 type AsButton = Common & { onClick: () => void; href?: never; external?: never };
 type AsLink = Common & { href: string; external?: boolean; onClick?: never };
 
@@ -18,7 +17,7 @@ const variants: Record<Variant, string> = {
 };
 
 export function Button(props: AsButton | AsLink) {
-  const { children, variant = "primary", magnetic = false, className = "" } = props;
+  const { children, variant = "primary", className = "" } = props;
   const cls = `${base} ${variants[variant]} ${className}`;
   let el: ReactNode;
   if ("href" in props && props.href) {
@@ -38,5 +37,5 @@ export function Button(props: AsButton | AsLink) {
       </button>
     );
   }
-  return magnetic ? <Magnetic>{el}</Magnetic> : el;
+  return el;
 }

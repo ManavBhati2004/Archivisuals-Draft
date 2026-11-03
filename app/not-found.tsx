@@ -17,7 +17,7 @@ export default function NotFound() {
         <h1 className="t-display mt-8">Wrong room.</h1>
         <p className="t-body mt-6 !text-white/75">This door doesn&rsquo;t lead anywhere. Let&rsquo;s take you back to the start.</p>
         <div className="mt-10">
-          <Button href="/" magnetic>
+          <Button href="/">
             Back to the front door
           </Button>
         </div>

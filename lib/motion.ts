@@ -47,8 +47,6 @@ export const cursor = {
   lerp: 0.18,
   dot: 8,
   media: 88,
-  magneticRadius: 80,
-  magneticStrength: 0.35,
 } as const;
 
 /** Triangle polygon (logo shape) used by clip-path reveals and the page transition. */

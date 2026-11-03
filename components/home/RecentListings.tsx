@@ -12,7 +12,7 @@ import { SplitLines } from "@/components/type/SplitLines";
 const LISTINGS = projects.slice(3, 8);
 
 /**
- * 06 — RECENT LISTINGS, the "file pile". Cards are CSS position: sticky with stepped tops,
+ * 05 — RECENT LISTINGS, the "file pile". Cards are CSS position: sticky with stepped tops,
  * so each earlier card's header peeks out like a file tab. GSAP only scrubs the card being
  * covered (scale down, dim, slight zoom) — the stacking itself is pure CSS, no pin spacers.
  */
@@ -56,7 +56,7 @@ export function RecentListings() {
       <div className="wrap">
         <div className="grid-12 items-end gap-y-8 pb-[clamp(40px,8vh,96px)]">
           <div className="col-span-12 md:col-span-4">
-            <Slate index="06">Recent listings</Slate>
+            <Slate index="05">Recent listings</Slate>
           </div>
           <SplitLines className="t-display-sm col-span-12 md:col-span-8">On the market now.</SplitLines>
         </div>

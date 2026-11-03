@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/Button";
 import { Slate } from "@/components/type/Slate";
 import { WidthMorph } from "@/components/type/WidthMorph";
 
-/** 09 — FINAL FRAME. The closing call to action; the global footer follows. */
+/** 08 — FINAL FRAME. The closing call to action; the global footer follows. */
 export function FinalFrame() {
   return (
     <section id="final-frame" data-chapter="Final frame" className="section pb-0">
       <div className="wrap">
-        <Slate index="09">Final frame</Slate>
+        <Slate index="08">Final frame</Slate>
         <WidthMorph className="t-display mt-12 !whitespace-normal !text-[clamp(2.25rem,9vw,10rem)]">
           {home.finalFrame.map((l) => (
             <span key={l} className="block whitespace-nowrap">
